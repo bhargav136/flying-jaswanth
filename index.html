@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#38bdf8" />
+  <title>Flying Jaswanth - The Flappy Game</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka+One&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="game-wrapper">
+    <!-- Canvas container -->
+    <canvas id="gameCanvas" width="400" height="600"></canvas>
+
+    <!-- Hidden autoplay helper iframe -->
+    <iframe src="assets/intro.mp3" allow="autoplay" style="position:absolute;width:1px;height:1px;opacity:0.01;pointer-events:none;" id="audioFrame"></iframe>
+
+    <!-- Audio elements -->
+    <audio id="introAudio" src="assets/intro.mp3" autoplay loop playsinline preload="auto"></audio>
+    <audio id="bgm" src="assets/bgm.mp3" loop playsinline preload="auto"></audio>
+    <audio id="gameOverAudio" src="assets/gameover.mp3" playsinline preload="auto"></audio>
+    <script>
+      (function() {
+        var audio = document.getElementById('introAudio');
+        if (audio) {
+          audio.volume = 1.0;
+          var promise = audio.play();
+          if (promise !== undefined) {
+            promise.catch(function(err) {
+              console.log('Immediate autoplay attempted:', err);
+            });
+          }
+        }
+      })();
+    </script>
+
+    <!-- Audio Toggle Button -->
+    <button id="soundToggle" class="icon-btn" aria-label="Toggle sound">
+      <span id="soundIcon">🔊</span>
+    </button>
+
+    <!-- Start Overlay Screen -->
+    <div id="startScreen" class="overlay-screen active">
+      <div class="overlay-card">
+        <h1 class="game-title">FLYING JASWANTH</h1>
+        <div class="preview-avatar">
+          <div class="glow-ring">
+            <img id="avatarPreview" src="assets/opening.jpg" alt="Opening Photo" />
+          </div>
+        </div>
+        <p class="instruction">Tap <b>START FLYING</b> or Press <b>[SPACE]</b></p>
+        <button id="startBtn" class="action-btn">START FLYING 🚀</button>
+      </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="gameOverScreen" class="overlay-screen">
+      <div class="overlay-card game-over-card">
+        <h2 class="game-over-title">GAME OVER!</h2>
+        
+        <div class="fail-image-box">
+          <img src="assets/gameover.png" alt="Game Over Friend" class="fail-image" />
+          <div class="fail-badge">AREYYY! 😭</div>
+        </div>
+
+        <div class="score-board">
+          <div class="score-row">
+            <span>SCORE</span>
+            <span id="finalScore" class="val">0</span>
+          </div>
+          <div class="score-row">
+            <span>BEST SCORE</span>
+            <span id="bestScore" class="val">0</span>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button id="restartBtn" class="action-btn restart">PLAY AGAIN</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
